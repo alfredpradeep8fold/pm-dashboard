@@ -23,23 +23,43 @@ from ai_engine import (
 # ═══════════════════════════════════════════════════════════════════════════════
 
 st.set_page_config(
-    page_title="PM Command Center",
-    page_icon="📊",
+    page_title="EtherCommand",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  GLASSMORPHIC CSS — LIGHT EGGSHELL THEME
+#  ETHEREAL COMMAND CENTER — DARK GLASSMORPHIC THEME
 # ═══════════════════════════════════════════════════════════════════════════════
 
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;700;900&display=swap');
+
+    /* ── Root Variables ─────────────────────────────────────────── */
+    :root {
+        --surface: #0e0e0e;
+        --surface-container-low: #131313;
+        --surface-container: #1a1919;
+        --surface-container-high: #201f1f;
+        --surface-container-highest: #262626;
+        --surface-bright: #2c2c2c;
+        --on-surface: #ffffff;
+        --on-surface-variant: #adaaaa;
+        --primary: #c39bff;
+        --primary-dim: #924bf3;
+        --secondary: #00f4fe;
+        --tertiary: #ffeea6;
+        --error: #ff6e84;
+        --outline-variant: #494847;
+        --ghost-border: rgba(73, 72, 71, 0.15);
+    }
 
     .stApp {
-        background: linear-gradient(135deg, #F5F0E8 0%, #F9F7F3 40%, #F5F0E8 100%);
+        background: var(--surface) !important;
         font-family: 'Inter', sans-serif;
+        color: var(--on-surface);
     }
 
     /* Hide sidebar completely */
@@ -50,11 +70,11 @@ st.markdown("""
 
     /* ── Top Navbar ────────────────────────────────────────────── */
     .top-navbar {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(0, 0, 0, 0.08);
-        border-radius: 14px;
+        background: var(--surface-container);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--ghost-border);
+        border-radius: 2rem;
         padding: 8px 16px;
         margin-bottom: 20px;
         display: flex;
@@ -63,50 +83,50 @@ st.markdown("""
         gap: 8px;
     }
     .navbar-brand {
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 700;
-        color: #1a1a2e;
+        color: var(--primary);
         white-space: nowrap;
         margin-right: 12px;
+        letter-spacing: -0.02em;
     }
     .navbar-brand span {
         font-size: 12px;
         font-weight: 400;
-        color: rgba(45, 55, 72, 0.6);
+        color: var(--on-surface-variant);
         margin-left: 8px;
     }
 
-    /* Style the Streamlit tabs as navbar */
+    /* Style the Streamlit tabs as navbar pills */
     .stTabs [data-baseweb="tab-list"] {
         background: transparent;
-        gap: 0;
+        gap: 4px;
         border-bottom: none;
         padding: 0;
     }
     .stTabs [data-baseweb="tab"] {
-        background: rgba(255, 255, 255, 0.5);
-        border: 1px solid rgba(0, 0, 0, 0.06);
-        border-radius: 10px;
-        padding: 8px 16px;
-        margin: 0 3px;
-        color: rgba(45, 55, 72, 0.7);
+        background: transparent;
+        border: none;
+        border-radius: 9999px;
+        padding: 8px 18px;
+        margin: 0 2px;
+        color: var(--on-surface-variant);
         font-weight: 500;
         font-size: 13px;
         height: auto;
         white-space: nowrap;
         transition: all 0.25s ease;
+        letter-spacing: 0.01em;
     }
     .stTabs [data-baseweb="tab"]:hover {
-        background: rgba(255, 255, 255, 0.8);
-        border-color: rgba(0, 0, 0, 0.12);
-        color: #1a1a2e;
+        background: var(--surface-bright);
+        color: var(--on-surface);
     }
     .stTabs [aria-selected="true"] {
-        background: rgba(255, 255, 255, 0.9) !important;
-        border-color: rgba(0, 0, 0, 0.15) !important;
-        color: #1a1a2e !important;
+        background: var(--surface-bright) !important;
+        color: var(--on-surface) !important;
         font-weight: 600 !important;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        box-shadow: none;
     }
     .stTabs [data-baseweb="tab-highlight"] { display: none; }
     .stTabs [data-baseweb="tab-border"] { display: none; }
@@ -122,28 +142,28 @@ st.markdown("""
         display: inline-flex;
         align-items: center;
         gap: 5px;
-        background: rgba(72, 187, 120, 0.12);
-        border: 1px solid rgba(72, 187, 120, 0.25);
-        border-radius: 20px;
+        background: rgba(0, 244, 254, 0.1);
+        border: 1px solid rgba(0, 244, 254, 0.25);
+        border-radius: 9999px;
         padding: 4px 12px;
         font-size: 11px;
-        color: #22863a;
+        color: var(--secondary);
         font-weight: 500;
     }
     .settings-badge-warn {
-        background: rgba(246, 173, 85, 0.12);
-        border-color: rgba(246, 173, 85, 0.25);
-        color: #b3590c;
+        background: rgba(255, 238, 166, 0.1);
+        border-color: rgba(255, 238, 166, 0.25);
+        color: var(--tertiary);
     }
 
-    /* ── Glass KPI Card ──────────────────────────────────────── */
+    /* ── Metric Glow KPI Card ────────────────────────────────── */
     .glass-card {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(0, 0, 0, 0.06);
-        border-radius: 16px;
-        padding: 18px 14px;
+        background: var(--surface-container);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--ghost-border);
+        border-radius: 2rem;
+        padding: 24px 18px;
         text-align: center;
         transition: all 0.3s ease;
         position: relative;
@@ -154,134 +174,220 @@ st.markdown("""
         position: absolute;
         top: 0; left: 0; right: 0;
         height: 2px;
-        background: linear-gradient(90deg, transparent, var(--accent, #6C63FF), transparent);
-        opacity: 0;
-        transition: opacity 0.3s;
+        background: linear-gradient(90deg, transparent, var(--accent, #c39bff), transparent);
+        opacity: 1;
+    }
+    .glass-card::after {
+        content: '';
+        position: absolute;
+        top: -40px; left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: var(--accent, #c39bff);
+        opacity: 0.06;
+        filter: blur(40px);
+        pointer-events: none;
     }
     .glass-card:hover {
         transform: translateY(-3px);
-        border-color: rgba(108, 99, 255, 0.2);
-        box-shadow: 0 8px 24px rgba(108, 99, 255, 0.12);
+        border-color: rgba(195, 155, 255, 0.2);
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
     }
-    .glass-card:hover::before { opacity: 1; }
     .glass-value {
-        font-size: 28px;
-        font-weight: 800;
-        color: #1a1a2e;
-        letter-spacing: -0.5px;
+        font-size: 32px;
+        font-weight: 900;
+        color: var(--on-surface);
+        letter-spacing: -0.02em;
         line-height: 1.2;
     }
     .glass-label {
         font-size: 11px;
         font-weight: 500;
-        color: rgba(45, 55, 72, 0.75);
-        margin-top: 4px;
+        color: var(--on-surface-variant);
+        margin-top: 6px;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.08em;
     }
 
     /* ── Glass Panel (chart containers) ──────────────────────── */
     .glass-panel {
-        background: rgba(255, 255, 255, 0.6);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(0, 0, 0, 0.04);
-        border-radius: 16px;
-        padding: 20px;
+        background: var(--surface-container);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--ghost-border);
+        border-radius: 2rem;
+        padding: 24px;
         margin-bottom: 16px;
     }
 
     /* ── Section Headers ──────────────────────────────────────── */
     .section-header {
-        font-size: 14px;
-        font-weight: 600;
-        color: rgba(45, 55, 72, 0.8);
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--on-surface-variant);
         text-transform: uppercase;
-        letter-spacing: 1.2px;
-        margin: 24px 0 12px 0;
-        padding-bottom: 8px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        letter-spacing: 0.12em;
+        margin: 32px 0 16px 0;
+        padding-bottom: 0;
+        border-bottom: none;
     }
 
     /* ── Status Badges ────────────────────────────────────────── */
     .badge {
         display: inline-block;
-        padding: 3px 10px;
-        border-radius: 20px;
+        padding: 4px 12px;
+        border-radius: 9999px;
         font-size: 11px;
         font-weight: 600;
     }
-    .badge-green { background: rgba(72, 187, 120, 0.15); color: #22863a; }
-    .badge-yellow { background: rgba(246, 173, 85, 0.15); color: #b3590c; }
-    .badge-red { background: rgba(252, 129, 129, 0.15); color: #cb2431; }
-    .badge-blue { background: rgba(99, 179, 237, 0.15); color: #0366d6; }
+    .badge-green { background: rgba(0, 244, 254, 0.12); color: #00f4fe; }
+    .badge-yellow { background: rgba(255, 238, 166, 0.12); color: #ffeea6; }
+    .badge-red { background: rgba(255, 110, 132, 0.12); color: #ff6e84; }
+    .badge-blue { background: rgba(195, 155, 255, 0.12); color: #c39bff; }
 
     /* ── Data tables ──────────────────────────────────────────── */
-    .stDataFrame { border-radius: 12px; overflow: hidden; }
-    div[data-testid="stDataFrame"] > div { border-radius: 12px; }
+    .stDataFrame { border-radius: 1rem; overflow: hidden; }
+    div[data-testid="stDataFrame"] > div {
+        border-radius: 1rem;
+        background: var(--surface-container) !important;
+    }
 
     /* ── Input styling ────────────────────────────────────────── */
-    .stSelectbox > div > div {
-        background: rgba(255, 255, 255, 0.7) !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-        border-radius: 10px !important;
-        color: #1a1a2e !important;
+    .stSelectbox > div > div,
+    .stSelectbox [data-baseweb="select"] > div {
+        background: var(--surface-container-high) !important;
+        border: 1px solid var(--ghost-border) !important;
+        border-radius: 1rem !important;
+        color: var(--on-surface) !important;
     }
     .stTextInput input {
-        background: rgba(255, 255, 255, 0.7) !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-        color: #1a1a2e !important;
-        border-radius: 10px !important;
+        background: var(--surface-container-high) !important;
+        border: 1px solid var(--ghost-border) !important;
+        color: var(--on-surface) !important;
+        border-radius: 1rem !important;
+    }
+    .stTextInput input::placeholder {
+        color: var(--on-surface-variant) !important;
     }
     .stTextInput input:focus {
-        border-color: rgba(108, 99, 255, 0.4) !important;
-        box-shadow: 0 0 0 1px rgba(108, 99, 255, 0.15) !important;
+        border-color: rgba(195, 155, 255, 0.4) !important;
+        box-shadow: 0 0 0 1px rgba(195, 155, 255, 0.15) !important;
+    }
+
+    /* ── Button styling ───────────────────────────────────────── */
+    .stButton > button {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dim)) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 9999px !important;
+        font-weight: 600 !important;
+        padding: 8px 20px !important;
+        transition: all 0.25s ease !important;
+    }
+    .stButton > button:hover {
+        box-shadow: 0 8px 24px rgba(195, 155, 255, 0.3) !important;
+        transform: translateY(-1px);
+    }
+    /* Secondary / ghost buttons */
+    .stButton > button[kind="secondary"] {
+        background: transparent !important;
+        border: 1px solid var(--ghost-border) !important;
+        color: var(--on-surface) !important;
     }
 
     /* ── Page title ────────────────────────────────────────────── */
     .page-title {
-        font-size: 28px;
-        font-weight: 700;
-        color: #1a1a2e;
+        font-size: 42px;
+        font-weight: 900;
+        color: var(--on-surface);
         margin-bottom: 4px;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
     }
     .page-subtitle {
-        font-size: 13px;
-        color: rgba(45, 55, 72, 0.6);
-        margin-bottom: 20px;
+        font-size: 14px;
+        color: var(--on-surface-variant);
+        margin-bottom: 24px;
+        line-height: 1.5;
     }
 
     /* ── Timestamp footer ──────────────────────────────────────── */
     .timestamp {
         font-size: 11px;
-        color: rgba(45, 55, 72, 0.5);
+        color: var(--on-surface-variant);
         text-align: right;
         padding: 16px 0 4px 0;
+    }
+
+    /* ── Streamlit overrides for dark consistency ──────────────── */
+    .stMarkdown h5 {
+        color: var(--on-surface) !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.06em !important;
+        font-size: 13px !important;
+    }
+    .stMarkdown p, .stMarkdown li {
+        color: var(--on-surface-variant);
+    }
+    .stWarning, .stInfo {
+        background: var(--surface-container) !important;
+        border-radius: 1rem !important;
+        border: 1px solid var(--ghost-border) !important;
+    }
+    .stSpinner > div {
+        border-top-color: var(--primary) !important;
+    }
+
+    /* ── Plotly chart container fix ─────────────────────────────── */
+    .stPlotlyChart {
+        background: transparent !important;
+        border-radius: 1rem;
+    }
+
+    /* ── Scrollbar ─────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--surface-container-low); }
+    ::-webkit-scrollbar-thumb { background: var(--surface-bright); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--outline-variant); }
+
+    /* ── Selectbox label color ─────────────────────────────────── */
+    .stSelectbox label, .stTextInput label {
+        color: var(--on-surface-variant) !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.06em !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
 PLOTLY_LAYOUT = dict(
     paper_bgcolor="rgba(0,0,0,0)",
-    plot_bgcolor="rgba(245,240,232,0.2)",
-    font=dict(color="#1a1a2e", family="Inter, sans-serif", size=12),
+    plot_bgcolor="rgba(0,0,0,0)",
+    font=dict(color="#adaaaa", family="Inter, sans-serif", size=12),
     margin=dict(l=40, r=20, t=36, b=40),
-    xaxis=dict(gridcolor="rgba(0,0,0,0.05)", zerolinecolor="rgba(0,0,0,0.05)"),
-    yaxis=dict(gridcolor="rgba(0,0,0,0.05)", zerolinecolor="rgba(0,0,0,0.05)"),
-    legend=dict(bgcolor="rgba(255,255,255,0.6)", font=dict(size=11), bordercolor="rgba(0,0,0,0.08)", borderwidth=1),
-    colorway=["#6C63FF", "#48BB78", "#FC8181", "#F6AD55",
-              "#63B3ED", "#B794F4", "#F687B3", "#68D391"],
+    xaxis=dict(gridcolor="rgba(73,72,71,0.2)", zerolinecolor="rgba(73,72,71,0.2)"),
+    yaxis=dict(gridcolor="rgba(73,72,71,0.2)", zerolinecolor="rgba(73,72,71,0.2)"),
+    legend=dict(bgcolor="rgba(26,25,25,0.8)", font=dict(size=11, color="#adaaaa"),
+                bordercolor="rgba(73,72,71,0.15)", borderwidth=1),
+    colorway=["#c39bff", "#00f4fe", "#ff6e84", "#ffeea6",
+              "#924bf3", "#00e5ee", "#d73357", "#edd139"],
+    hoverlabel=dict(bgcolor="#1a1919", font_size=12, font_family="Inter",
+                    font_color="#ffffff", bordercolor="rgba(73,72,71,0.3)"),
 )
 
 STATUS_COLORS = {
-    "On Track": "#48BB78", "At Risk": "#F6AD55", "Off Track": "#FC8181",
-    "New": "#63B3ED", "Blocked": "#B794F4",
+    "On Track": "#00f4fe", "At Risk": "#ffeea6", "Off Track": "#ff6e84",
+    "New": "#c39bff", "Blocked": "#924bf3",
 }
 
 PHASE_COLORS = {
-    "Launch": "#4299E1", "Verify": "#48BB78", "Deploy": "#FC8181",
-    "Align": "#F6AD55", "Initiate and Plan": "#B794F4",
-    "Initiate and Preview": "#B794F4",
-    "Design & Integrate": "#68D391", "Not Started": "#A0AEC0",
+    "Launch": "#00f4fe", "Verify": "#00e5ee", "Deploy": "#ff6e84",
+    "Align": "#ffeea6", "Initiate and Plan": "#c39bff",
+    "Initiate and Preview": "#924bf3",
+    "Design & Integrate": "#00f4fe", "Not Started": "#494847",
 }
 
 
@@ -356,7 +462,7 @@ def show_table(df, cols=None, height=400):
     st.dataframe(show_df, use_container_width=True, height=height, column_config=col_config)
 
 
-def kpi(label, value, color="#6C63FF"):
+def kpi(label, value, color="#c39bff"):
     st.markdown(f"""
     <div class="glass-card" style="--accent: {color};">
         <div class="glass-value" style="color: {color};">{value}</div>
@@ -364,10 +470,10 @@ def kpi(label, value, color="#6C63FF"):
     </div>""", unsafe_allow_html=True)
 
 
-def small_kpi(label, value, color="#6C63FF"):
+def small_kpi(label, value, color="#c39bff"):
     st.markdown(f"""
-    <div class="glass-card" style="--accent: {color}; padding: 12px 8px;">
-        <div class="glass-value" style="color: {color}; font-size: 22px;">{value}</div>
+    <div class="glass-card" style="--accent: {color}; padding: 16px 10px;">
+        <div class="glass-value" style="color: {color}; font-size: 24px;">{value}</div>
         <div class="glass-label" style="font-size: 10px;">{label}</div>
     </div>""", unsafe_allow_html=True)
 
@@ -399,7 +505,7 @@ with _nb_left:
         '<span class="settings-badge settings-badge-warn">⚠ No SA Key</span>')
     st.markdown(
         f'<div style="display:flex;align-items:center;gap:12px;">'
-        f'<span class="navbar-brand">📊 PM Command Center</span>'
+        f'<span class="navbar-brand">EtherCommand</span>'
         f'{_conn_html}'
         f'</div>',
         unsafe_allow_html=True,
@@ -420,7 +526,7 @@ with _nb_right:
         ai_label = "🤖 AI On" if st.session_state.get("anthropic_api_key") and HAS_ANTHROPIC else "🤖 AI Off"
         st.markdown(
             f'<div style="text-align:center;padding:6px 0;font-size:12px;'
-            f'color:{"#22863a" if "On" in ai_label else "rgba(45,55,72,0.5)"};">'
+            f'color:{"#00f4fe" if "On" in ai_label else "#494847"};">'
             f'{ai_label}</div>',
             unsafe_allow_html=True)
 
@@ -440,7 +546,7 @@ AI_ENABLED = bool(st.session_state.get("anthropic_api_key")) and HAS_ANTHROPIC
 ALL_EMPTY = all(df.empty for df in [projects_df, bugs_df, ers_df, milestones_df, scheduler_df])
 
 if ALL_EMPTY:
-    st.markdown("# 📊 PM Command Center")
+    st.markdown('<div class="page-title">EtherCommand</div>', unsafe_allow_html=True)
     st.info("No data loaded. Place your service account JSON key in the app folder and click Refresh Data.")
     st.stop()
 
@@ -521,8 +627,8 @@ tab_summary, tab_projects, tab_bugs, tab_ers, tab_milestones, tab_timeline, tab_
 # ═══════════════════════════════════════════════════════════════════════════════
 
 with tab_summary:
-    st.markdown('<div class="page-title">🏠 Portfolio Summary</div>', unsafe_allow_html=True)
-    st.markdown('<div class="page-subtitle">Real-time project portfolio overview</div>', unsafe_allow_html=True)
+    st.markdown('<div class="page-title">Operational Insight</div>', unsafe_allow_html=True)
+    st.markdown('<div class="page-subtitle">Monitoring global project trajectories and resource allocation in real-time.</div>', unsafe_allow_html=True)
 
     render_filters(page_name="summary")
     fp = apply_project_filters(projects_df)
@@ -546,46 +652,46 @@ with tab_summary:
     section("Implementation Overview")
     r1 = st.columns(8)
     with r1[0]:
-        kpi("IMPLS", len(fp), "#6C63FF")
+        kpi("IMPLS", len(fp), "#c39bff")
     with r1[1]:
-        kpi("On Track", count_status(fp, "On Track"), "#48BB78")
+        kpi("On Track", count_status(fp, "On Track"), "#00f4fe")
     with r1[2]:
-        kpi("At Risk", count_status(fp, "At Risk"), "#F6AD55")
+        kpi("At Risk", count_status(fp, "At Risk"), "#ffeea6")
     with r1[3]:
-        kpi("Off Track", count_status(fp, "Off Track"), "#FC8181")
+        kpi("Off Track", count_status(fp, "Off Track"), "#ff6e84")
     with r1[4]:
-        kpi("New", count_status(fp, "New"), "#63B3ED")
+        kpi("New", count_status(fp, "New"), "#924bf3")
     with r1[5]:
         americas = len(fp[fp["Theater"] == "Americas"]) if "Theater" in fp.columns else 0
-        small_kpi("Americas", americas, "#63B3ED")
+        small_kpi("Americas", americas, "#00f4fe")
     with r1[6]:
         emea = len(fp[fp["Theater"] == "EMEA"]) if "Theater" in fp.columns else 0
-        small_kpi("EMEA", emea, "#B794F4")
+        small_kpi("EMEA", emea, "#c39bff")
     with r1[7]:
         apjc = len(fp[fp["Theater"] == "APJC"]) if "Theater" in fp.columns else 0
-        small_kpi("APJC", apjc, "#F687B3")
+        small_kpi("APJC", apjc, "#ff6e84")
 
     st.markdown("")
 
     # ── Row 2: Bug & ER KPIs ─────────────────────────────────────────────
     r2 = st.columns(8)
     with r2[0]:
-        small_kpi("Total ERs", len(fe), "#F6AD55")
+        small_kpi("Total ERs", len(fe), "#ffeea6")
     with r2[1]:
-        small_kpi("P0 ERs", count_priority(fe, "P0"), "#FC8181")
+        small_kpi("P0 ERs", count_priority(fe, "P0"), "#ff6e84")
     with r2[2]:
-        small_kpi("P1 ERs", count_priority(fe, "P1"), "#F687B3")
+        small_kpi("P1 ERs", count_priority(fe, "P1"), "#d73357")
     with r2[3]:
-        small_kpi("P2 ERs", count_priority(fe, "P2"), "#F6AD55")
+        small_kpi("P2 ERs", count_priority(fe, "P2"), "#ffeea6")
     with r2[4]:
-        small_kpi("Total Bugs", len(fb), "#FC8181")
+        small_kpi("Total Bugs", len(fb), "#ff6e84")
     with r2[5]:
-        small_kpi("P0 Bugs", count_priority(fb, "P0"), "#FC8181")
+        small_kpi("P0 Bugs", count_priority(fb, "P0"), "#ff6e84")
     with r2[6]:
-        small_kpi("P1 Bugs", count_priority(fb, "P1"), "#F687B3")
+        small_kpi("P1 Bugs", count_priority(fb, "P1"), "#d73357")
     with r2[7]:
         p2p3 = count_priority(fb, "P2") + count_priority(fb, "P3")
-        small_kpi("P2+P3 Bugs", p2p3, "#F6AD55")
+        small_kpi("P2+P3 Bugs", p2p3, "#ffeea6")
 
     st.markdown("")
 
@@ -599,7 +705,7 @@ with tab_summary:
             tc = fp["Theater"].value_counts().reset_index()
             tc.columns = ["Theater", "Count"]
             fig = px.pie(tc, names="Theater", values="Count", hole=0.5,
-                         color_discrete_sequence=["#63B3ED", "#6C63FF", "#F687B3", "#F6AD55"])
+                         color_discrete_sequence=["#00f4fe", "#c39bff", "#ff6e84", "#ffeea6"])
             fig.update_traces(textinfo="label+value", textfont_size=12,
                             hovertemplate="<b>%{label}</b><br>Count: %{value}<extra></extra>")
             st.plotly_chart(styled_chart(fig, 340), use_container_width=True)
@@ -668,8 +774,8 @@ with tab_summary:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 with tab_projects:
-    st.markdown('<div class="page-title">📋 Projects</div>', unsafe_allow_html=True)
-    st.markdown('<div class="page-subtitle">Detailed project tracking with health indicators</div>',
+    st.markdown('<div class="page-title">Command Center / Projects</div>', unsafe_allow_html=True)
+    st.markdown('<div class="page-subtitle">Managing active workflows across sectors. Track execution, priority, and fleet allocation.</div>',
                 unsafe_allow_html=True)
 
     if projects_df.empty:
@@ -681,15 +787,15 @@ with tab_projects:
         st.markdown("")
         r = st.columns(4)
         with r[0]:
-            kpi("Projects", len(fp))
+            kpi("Projects", len(fp), "#c39bff")
         with r[1]:
-            kpi("On Track", count_status(fp, "On Track"), "#48BB78")
+            kpi("On Track", count_status(fp, "On Track"), "#00f4fe")
         with r[2]:
             kpi("At Risk / Off Track",
-                count_status(fp, "At Risk") + count_status(fp, "Off Track"), "#FC8181")
+                count_status(fp, "At Risk") + count_status(fp, "Off Track"), "#ff6e84")
         with r[3]:
             teams = fp["Implementing Team"].nunique() if "Implementing Team" in fp.columns else 0
-            kpi("Teams", teams, "#63B3ED")
+            kpi("Teams", teams, "#ffeea6")
 
         st.markdown("")
 
@@ -705,7 +811,7 @@ with tab_projects:
             if health_data:
                 hdf = pd.DataFrame(health_data)
                 fig = px.bar(hdf, x="Indicator", y="Count", color="Rating",
-                             color_discrete_map={"G": "#48BB78", "Y": "#F6AD55", "R": "#FC8181"},
+                             color_discrete_map={"G": "#00f4fe", "Y": "#ffeea6", "R": "#ff6e84"},
                              text="Count", barmode="stack")
                 fig.update_traces(textposition="inside",
                                 hovertemplate="<b>%{x}</b><br>%{fullData.name}: %{y}<extra></extra>")
@@ -747,8 +853,8 @@ with tab_projects:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 with tab_bugs:
-    st.markdown('<div class="page-title">🐛 Bugs & Implementation Support</div>', unsafe_allow_html=True)
-    st.markdown('<div class="page-subtitle">Track bugs, SLA compliance, and resolution trends</div>',
+    st.markdown('<div class="page-title">Bugs & Issues</div>', unsafe_allow_html=True)
+    st.markdown('<div class="page-subtitle">Real-time resolution hub for high-performance engineering squads. Monitor, triage, and execute fixes.</div>',
                 unsafe_allow_html=True)
 
     if bugs_df.empty:
@@ -785,17 +891,17 @@ with tab_bugs:
         st.markdown("")
         r = st.columns(4)
         with r[0]:
-            kpi("Total Bugs", len(fb), "#FC8181")
+            kpi("Total Bugs", len(fb), "#ff6e84")
         with r[1]:
-            kpi("P1 Critical", count_priority(fb, "P1"), "#FC8181")
+            kpi("P1 Critical", count_priority(fb, "P1"), "#d73357")
         with r[2]:
             overdue = 0
             if "SLA Due date" in fb.columns:
                 overdue = int(fb["SLA Due date"].dropna().lt(pd.Timestamp.now()).sum())
-            kpi("SLA Overdue", overdue, "#F6AD55")
+            kpi("SLA Overdue", overdue, "#ffeea6")
         with r[3]:
             blocked = len(fb[fb["Status"].str.contains("Blocked", case=False, na=False)]) if "Status" in fb.columns else 0
-            kpi("Blocked", blocked, "#B794F4")
+            kpi("Blocked", blocked, "#924bf3")
 
         st.markdown("")
 
@@ -816,7 +922,7 @@ with tab_bugs:
                 pac = fb["Product Area"].value_counts().head(10).reset_index()
                 pac.columns = ["Product Area", "Count"]
                 fig = px.bar(pac, y="Product Area", x="Count", orientation="h",
-                             color="Count", color_continuous_scale=["#63B3ED", "#FC8181"])
+                             color="Count", color_continuous_scale=["#924bf3", "#ff6e84"])
                 fig.update_layout(yaxis=dict(autorange="reversed"))
                 fig.update_traces(hovertemplate="<b>%{y}</b><br>Count: %{x}<extra></extra>")
                 st.plotly_chart(styled_chart(fig), use_container_width=True)
@@ -827,7 +933,7 @@ with tab_bugs:
             if not trend.empty:
                 trend["Month"] = trend["Created"].dt.to_period("M").astype(str)
                 monthly = trend.groupby("Month").size().reset_index(name="Count")
-                fig = px.area(monthly, x="Month", y="Count", color_discrete_sequence=["#6C63FF"])
+                fig = px.area(monthly, x="Month", y="Count", color_discrete_sequence=["#c39bff"])
                 fig.update_layout(xaxis_title="", yaxis_title="New Bugs")
                 fig.update_traces(hovertemplate="<b>Month: %{x}</b><br>Count: %{y}<extra></extra>")
                 st.plotly_chart(styled_chart(fig), use_container_width=True)
@@ -844,8 +950,8 @@ with tab_bugs:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 with tab_ers:
-    st.markdown('<div class="page-title">💡 Enhancement Requests</div>', unsafe_allow_html=True)
-    st.markdown('<div class="page-subtitle">Feature requests, impact analysis, and customer demand</div>',
+    st.markdown('<div class="page-title">Enhancement Requests</div>', unsafe_allow_html=True)
+    st.markdown('<div class="page-subtitle">Curate the future of <strong style="color:#c39bff">EtherCommand</strong>. Propose features, upvote high-impact requests, and track implementation evolution.</div>',
                 unsafe_allow_html=True)
 
     if ers_df.empty:
@@ -873,13 +979,13 @@ with tab_ers:
         st.markdown("")
         r = st.columns(3)
         with r[0]:
-            kpi("Total ERs", len(fe), "#F6AD55")
+            kpi("Total ERs", len(fe), "#ffeea6")
         with r[1]:
             top_imp = fe["Feature Impact"].value_counts().index[0] if "Feature Impact" in fe.columns and not fe.empty else "N/A"
-            kpi("Top Impact", top_imp, "#B794F4")
+            kpi("Top Impact", top_imp, "#c39bff")
         with r[2]:
             uniq_c = fe["Customer Name"].nunique() if "Customer Name" in fe.columns else 0
-            kpi("Unique Customers", uniq_c, "#63B3ED")
+            kpi("Unique Customers", uniq_c, "#00f4fe")
 
         st.markdown("")
 
@@ -909,7 +1015,7 @@ with tab_ers:
             cc = fe["Customer Name"].value_counts().head(10).reset_index()
             cc.columns = ["Customer", "Count"]
             fig = px.bar(cc, y="Customer", x="Count", orientation="h", text="Count",
-                         color_discrete_sequence=["#6C63FF"])
+                         color_discrete_sequence=["#c39bff"])
             fig.update_traces(textposition="outside",
                             hovertemplate="<b>%{y}</b><br>Count: %{x}<extra></extra>")
             fig.update_layout(yaxis=dict(autorange="reversed"))
@@ -927,8 +1033,8 @@ with tab_ers:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 with tab_milestones:
-    st.markdown('<div class="page-title">🎯 Milestones & Go-Live Tracker</div>', unsafe_allow_html=True)
-    st.markdown('<div class="page-subtitle">Track delivery milestones and go-live dates</div>',
+    st.markdown('<div class="page-title">Project Milestones</div>', unsafe_allow_html=True)
+    st.markdown('<div class="page-subtitle">Tracking the critical path for deployment and high-performance scalability.</div>',
                 unsafe_allow_html=True)
 
     if milestones_df.empty:
@@ -958,22 +1064,22 @@ with tab_milestones:
         # KPIs
         r = st.columns(5)
         with r[0]:
-            kpi("Total Milestones", len(fm), "#63B3ED")
+            kpi("Total Milestones", len(fm), "#c39bff")
         with r[1]:
             completed = len(fm[fm["Status"].str.contains("Closed", case=False, na=False)]) if "Status" in fm.columns else 0
-            kpi("Completed", completed, "#48BB78")
+            kpi("Completed", completed, "#00f4fe")
         with r[2]:
             in_progress = len(fm[fm["Status"].str.contains("Progress", case=False, na=False)]) if "Status" in fm.columns else 0
-            kpi("In Progress", in_progress, "#63B3ED")
+            kpi("In Progress", in_progress, "#924bf3")
         with r[3]:
             if len(fm) > 0:
                 completion_pct = int((completed / len(fm)) * 100)
             else:
                 completion_pct = 0
-            small_kpi("Completion %", f"{completion_pct}%", "#48BB78")
+            small_kpi("Completion %", f"{completion_pct}%", "#00f4fe")
         with r[4]:
             overdue = int(fm["Due date"].dropna().lt(pd.Timestamp.now()).sum()) if "Due date" in fm.columns else 0
-            small_kpi("Overdue", overdue, "#FC8181")
+            small_kpi("Overdue", overdue, "#ff6e84")
 
         st.markdown("")
 
@@ -983,8 +1089,8 @@ with tab_milestones:
             gantt = fm.dropna(subset=["Start date", "Due date"]).head(20)
             if not gantt.empty:
                 # Define status colors
-                gantt_colors = {"New": "#63B3ED", "In Progress": "#4299E1", "Closed": "#E8956F"}
-                gantt["color"] = gantt["Status"].map(gantt_colors).fillna("#A0AEC0")
+                gantt_colors = {"New": "#c39bff", "In Progress": "#00f4fe", "Closed": "#00e5ee"}
+                gantt["color"] = gantt["Status"].map(gantt_colors).fillna("#494847")
 
                 fig = go.Figure()
                 for _, row in gantt.iterrows():
@@ -999,7 +1105,7 @@ with tab_milestones:
                         base=row["Start date"],
                         orientation="h",
                         name=status,
-                        marker_color=gantt_colors.get(status, "#A0AEC0"),
+                        marker_color=gantt_colors.get(status, "#494847"),
                         text=f"{summary}" if summary else proj_name,
                         textposition="inside",
                         textfont=dict(size=10, color="white"),
@@ -1035,7 +1141,7 @@ with tab_milestones:
                 cc = fm["Customer Name"].value_counts().head(10).reset_index()
                 cc.columns = ["Customer", "Count"]
                 fig = px.bar(cc, y="Customer", x="Count", orientation="h", text="Count",
-                             color_discrete_sequence=["#6C63FF"])
+                             color_discrete_sequence=["#c39bff"])
                 fig.update_traces(textposition="outside",
                                 hovertemplate="<b>%{y}</b><br>Count: %{x}<extra></extra>")
                 fig.update_layout(yaxis=dict(autorange="reversed"))
@@ -1053,8 +1159,8 @@ with tab_milestones:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 with tab_timeline:
-    st.markdown('<div class="page-title">📅 Overall Timeline</div>', unsafe_allow_html=True)
-    st.markdown('<div class="page-subtitle">Project timelines, go-live dates, and phase progression</div>',
+    st.markdown('<div class="page-title">Project Timeline</div>', unsafe_allow_html=True)
+    st.markdown('<div class="page-subtitle">Strategic roadmap for Alpha Systems. Track delivery windows and resource allocation across departments.</div>',
                 unsafe_allow_html=True)
 
     if projects_df.empty:
@@ -1155,12 +1261,12 @@ with tab_timeline:
                     else:
                         grp = gl.groupby("Month").size().reset_index(name="Count")
                         fig = px.bar(grp, y="Month", x="Count", orientation="h", text="Count",
-                                     color_discrete_sequence=["#6C63FF"])
+                                     color_discrete_sequence=["#c39bff"])
                         fig.update_traces(textposition="outside",
                                         hovertemplate="<b>%{y}</b><br>Count: %{x}<extra></extra>")
                     fig.update_layout(
                         yaxis=dict(categoryorder="category ascending"),
-                        hoverlabel=dict(bgcolor="white", font_size=12, font_family="Inter"))
+                        hoverlabel=dict(bgcolor="#1a1919", font_size=12, font_family="Inter", font_color="#ffffff", bordercolor="rgba(73,72,71,0.3)"))
                     st.plotly_chart(styled_chart(fig, 420), use_container_width=True)
 
         with r1c2:
@@ -1174,7 +1280,7 @@ with tab_timeline:
                     textinfo="label+value",
                     hovertemplate="<b>%{label}</b><br>Count: %{value} (%{percent})<extra></extra>")
                 fig.update_layout(
-                    hoverlabel=dict(bgcolor="white", font_size=12, font_family="Inter"))
+                    hoverlabel=dict(bgcolor="#1a1919", font_size=12, font_family="Inter", font_color="#ffffff", bordercolor="rgba(73,72,71,0.3)"))
                 st.plotly_chart(styled_chart(fig, 420), use_container_width=True)
 
         # ═══════════════════════════════════════════════════════════════════
@@ -1183,9 +1289,9 @@ with tab_timeline:
         st.markdown("##### Project Health Indicators (RAG)")
         health_cols = ["Timeline", "Budget", "Scope", "Dependencies", "Customer Sentiment"]
         _rag_map = {
-            "G": {"color": "#22c55e", "label": "Green (On Track)"},
-            "Y": {"color": "#f59e0b", "label": "Amber (At Risk)"},
-            "R": {"color": "#ef4444", "label": "Red (Off Track)"},
+            "G": {"color": "#00f4fe", "label": "Green (On Track)"},
+            "Y": {"color": "#ffeea6", "label": "Amber (At Risk)"},
+            "R": {"color": "#ff6e84", "label": "Red (Off Track)"},
         }
         health_data = []
         for col in health_cols:
@@ -1221,9 +1327,9 @@ with tab_timeline:
 
             fig = px.bar(hdf_agg, x="Indicator", y="Count", color="RAG",
                          color_discrete_map={
-                             "G": "#22c55e",  # Green
-                             "Y": "#f59e0b",  # Amber
-                             "R": "#ef4444",  # Red
+                             "G": "#00f4fe",  # Cyan (On Track)
+                             "Y": "#ffeea6",  # Gold (At Risk)
+                             "R": "#ff6e84",  # Coral (Off Track)
                          },
                          text="Count", barmode="stack",
                          category_orders={"RAG": ["R", "Y", "G"]},
@@ -1238,7 +1344,7 @@ with tab_timeline:
                 ))
             fig.update_layout(
                 legend_title_text="RAG Status",
-                hoverlabel=dict(bgcolor="white", font_size=12, font_family="Inter"),
+                hoverlabel=dict(bgcolor="#1a1919", font_size=12, font_family="Inter", font_color="#ffffff", bordercolor="rgba(73,72,71,0.3)"),
                 xaxis_title="Health Indicator",
                 yaxis_title="Project Count")
             # Rename legend entries
@@ -1271,10 +1377,10 @@ with tab_timeline:
         # ═══════════════════════════════════════════════════════════════════
         st.markdown("##### Milestone Gantt Chart")
         _gantt_status_colors = {
-            "Closed": "#86efac",       # Light green
-            "In Progress": "#60a5fa",  # Blue
-            "New": "#fbbf24",          # Dark yellow/amber
-            "Waiting for customer": "#c4b5fd",  # Light purple
+            "Closed": "#00f4fe",       # Cyan
+            "In Progress": "#c39bff",  # Primary purple
+            "New": "#ffeea6",          # Gold
+            "Waiting for customer": "#924bf3",  # Purple dim
         }
         if not milestones_df.empty and "Start date" in milestones_df.columns and "Due date" in milestones_df.columns:
             # Filter milestones by the same projects
@@ -1312,7 +1418,7 @@ with tab_timeline:
                 fig.update_traces(
                     textposition="inside",
                     insidetextanchor="middle",
-                    textfont=dict(size=10, color="#1a1a2e"),
+                    textfont=dict(size=10, color="#0e0e0e"),
                     hovertemplate=(
                         "<b>%{y}</b><br>"
                         "Summary: %{customdata[0]}<br>"
@@ -1324,7 +1430,7 @@ with tab_timeline:
                     ))
                 fig.update_layout(
                     yaxis=dict(autorange="reversed"),
-                    hoverlabel=dict(bgcolor="white", font_size=12, font_family="Inter"),
+                    hoverlabel=dict(bgcolor="#1a1919", font_size=12, font_family="Inter", font_color="#ffffff", bordercolor="rgba(73,72,71,0.3)"),
                     legend_title_text="Status")
                 event_gantt = st.plotly_chart(styled_chart(fig, 500), use_container_width=True,
                                               key="tl_gantt_chart", on_select="rerun")
@@ -1353,8 +1459,8 @@ with tab_timeline:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 with tab_scheduler:
-    st.markdown('<div class="page-title">⚙️ Scheduler Logs</div>', unsafe_allow_html=True)
-    st.markdown('<div class="page-subtitle">Data rebuild monitoring and automation health</div>',
+    st.markdown('<div class="page-title">Scheduler Logs</div>', unsafe_allow_html=True)
+    st.markdown('<div class="page-subtitle">Data rebuild monitoring and automation health.</div>',
                 unsafe_allow_html=True)
 
     if scheduler_df.empty:
@@ -1362,16 +1468,16 @@ with tab_scheduler:
     else:
         r = st.columns(4)
         with r[0]:
-            kpi("Total Runs", len(scheduler_df), "#6C63FF")
+            kpi("Total Runs", len(scheduler_df), "#c39bff")
         with r[1]:
             s_ok = len(scheduler_df[scheduler_df["Status"] == "success"]) if "Status" in scheduler_df.columns else 0
-            kpi("Successful", s_ok, "#48BB78")
+            kpi("Successful", s_ok, "#00f4fe")
         with r[2]:
             s_err = len(scheduler_df[scheduler_df["Status"].str.contains("error|fail", case=False, na=False)]) if "Status" in scheduler_df.columns else 0
-            kpi("Errors", s_err, "#FC8181")
+            kpi("Errors", s_err, "#ff6e84")
         with r[3]:
             avg_d = f"{scheduler_df['Duration (s)'].mean():.1f}s" if "Duration (s)" in scheduler_df.columns else "N/A"
-            kpi("Avg Duration", avg_d, "#F6AD55")
+            kpi("Avg Duration", avg_d, "#ffeea6")
 
         st.markdown("")
 
@@ -1383,7 +1489,7 @@ with tab_scheduler:
                 sc.columns = ["Status", "Count"]
                 fig = px.pie(sc, names="Status", values="Count",
                              color="Status",
-                             color_discrete_map={"success": "#48BB78", "error": "#FC8181", "info": "#63B3ED"},
+                             color_discrete_map={"success": "#00f4fe", "error": "#ff6e84", "info": "#c39bff"},
                              hole=0.45)
                 fig.update_traces(textinfo="label+value+percent",
                                 hovertemplate="<b>%{label}</b><br>Count: %{value}<extra></extra>")
@@ -1397,7 +1503,7 @@ with tab_scheduler:
                 if not dd.empty:
                     fig = px.scatter(dd, x="Started (local time)", y="Duration (s)",
                                      color="Status", size="Duration (s)",
-                                     color_discrete_map={"success": "#48BB78", "error": "#FC8181", "info": "#63B3ED"})
+                                     color_discrete_map={"success": "#00f4fe", "error": "#ff6e84", "info": "#c39bff"})
                     fig.update_traces(hovertemplate="<b>Time: %{x}</b><br>Duration: %{y}s<br>Status: %{fullData.name}<extra></extra>")
                     st.plotly_chart(styled_chart(fig), use_container_width=True)
 
